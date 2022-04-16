@@ -17,9 +17,12 @@ class CostCalculator:
         i = 0
         cost = 0
         while i < len(trip) - 2:
-            path = trip[i] + trip[i+1]
-            cost += pathsdict.get(path)
+            try:
+                path = trip[i] + trip[i+1]
+                cost += pathsdict[path]
+            except:
+                path = trip[i + 1] + trip[i]
+                cost += pathsdict[path]
             i += 1
-        path = trip[i+1] + trip[i]
-        cost += pathsdict.get(path)
+
         return cost
