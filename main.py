@@ -14,9 +14,27 @@ def city_shuffle():
     return path
 
 
+'''
+totalS (totalChance)
+random_sample
+og_population_idx
+path
+'''
+
+
+def parent_picker(self, totalS, idx, path):
+    while idx >= 0:
+        totalS -= CostCalculator.path_cost(path[idx])
+        if totalS <= self:
+            return path[idx]
+        else:
+            idx -= 1
+
+
 #creating the original population (N = 4)
 trial_path = [city_shuffle(), city_shuffle(), city_shuffle(), city_shuffle()]
 totalChance = 0
+og_population_idx = 0
 print(trial_path)
 
 #calculating the cost of each path
@@ -26,15 +44,8 @@ for og_population_idx in range(len(trial_path)):
 print(totalChance)
 
 #picking randomly the new parents
+random_samples = [0, 0, 0, 0]
 for j in range(len(trial_path)):
-    totalS = totalChance
-    random_sample = random.uniform(0, totalS)
-    print(str(random_sample))
-    while og_population_idx >= 0:
-        totalS -= CostCalculator.path_cost(trial_path[og_population_idx])
-        if totalS <= random_sample:
-            break
-        else:
-            og_population_idx -= 1
-    print("yes " + str(og_population_idx))
-    og_population_idx = 3
+    random_samples[j] = random.uniform(0, totalChance)
+    random_samples[j] = parent_picker(random_samples[j], totalChance, og_population_idx, trial_path)
+print(random_samples)
