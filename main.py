@@ -47,7 +47,7 @@ while not(all_equal(paths)):
     for og_population_idx in range(pathsN):
         print(CostCalculator.path_cost(paths[og_population_idx]))
         totalChance += CostCalculator.path_cost(paths[og_population_idx])
-    #print(totalChance)
+    print(totalChance)
 
     #picking randomly the new parents
     random_samples = [0]*pathsN

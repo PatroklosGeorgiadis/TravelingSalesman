@@ -25,4 +25,4 @@ class CostCalculator:
                 cost += pathsdict[path]
             i += 1
 
-        return 1/cost
+        return 10/cost
