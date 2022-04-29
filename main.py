@@ -51,9 +51,8 @@ while not(paths[0] == paths[1] == paths[2] == paths[3]):
         random_samples[j] = parent_picker(random_samples[j], totalChance, og_population_idx, paths)
     print(random_samples)
 
-    #make new generation
-    paths[0] = "".join(Reproduction.generate_child(random_samples[0], random_samples[1]))
-    paths[1] = "".join(Reproduction.generate_child(random_samples[1], random_samples[0]))
-    paths[2] = "".join(Reproduction.generate_child(random_samples[2], random_samples[3]))
-    paths[3] = "".join(Reproduction.generate_child(random_samples[3], random_samples[2]))
+    #making the new generation of children
+    for child_idx in range(0, len(paths), 2):
+        paths[child_idx] = "".join(Reproduction.generate_child(random_samples[child_idx], random_samples[child_idx+1]))
+        paths[child_idx+1] = "".join(Reproduction.generate_child(random_samples[child_idx+1], random_samples[child_idx]))
     generations += 1
