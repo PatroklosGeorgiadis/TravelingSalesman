@@ -20,7 +20,7 @@ def parent_picker(self, totalS, idx, path):
     while idx >= 0:
         totalS -= CostCalculator.path_cost(path[idx])
         if totalS <= self:
-            return path[idx]
+            return path[idx], idx
         else:
             idx -= 1
 
@@ -51,13 +51,20 @@ while not(all_equal(paths)):
 
     #picking randomly the new parents
     random_samples = [0]*pathsN
-    for j in range(pathsN):
+    for j in range(0, pathsN, 2):
         random_samples[j] = random.uniform(0, totalChance)
-        random_samples[j] = parent_picker(random_samples[j], totalChance, og_population_idx, paths)
-    print(random_samples)
+        random_samples[j], p1idx = parent_picker(random_samples[j], totalChance, og_population_idx, paths)
+        while True:
+            random_samples[j + 1] = random.uniform(0, totalChance)
+            random_samples[j + 1], p2idx = parent_picker(random_samples[j+1], totalChance, og_population_idx, paths)
+            #making sure they are not the same person
+            if p1idx != p2idx:
+                break
+    print("parents:"+str(random_samples))
 
     #making the new generation of children
     for child_idx in range(0, pathsN, 2):
         paths[child_idx] = "".join(Reproduction.generate_child(random_samples[child_idx], random_samples[child_idx+1]))
         paths[child_idx+1] = "".join(Reproduction.generate_child(random_samples[child_idx+1], random_samples[child_idx]))
     generations += 1
+    print("children:"+str(paths))
