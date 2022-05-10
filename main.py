@@ -32,7 +32,7 @@ def all_equal(paths_list):
 
 #creating the original population (amount N)
 paths = []
-for N in range(4):
+for N in range(10):
     paths.append(city_shuffle())
 
 #main algorithm
@@ -40,6 +40,7 @@ generations = 0
 pathsN = len(paths)
 #convergence process
 while not(all_equal(paths)):
+    child_counter = 0
     totalChance = 0
     print("Generation " + str(generations) + ": " + str(paths))
 
@@ -50,8 +51,8 @@ while not(all_equal(paths)):
     print(totalChance)
 
     #picking randomly the new parents
-    random_samples = [0]*pathsN
-    for j in range(0, pathsN, 2):
+    random_samples = [0]*round(pathsN * 4 / 5)
+    for j in range(0, round(pathsN * 4 / 5), 2):
         random_samples[j] = random.uniform(0, totalChance)
         random_samples[j], p1idx = parent_picker(random_samples[j], totalChance, og_population_idx, paths)
         while True:
@@ -62,9 +63,16 @@ while not(all_equal(paths)):
                 break
     print("parents:"+str(random_samples))
 
-    #making the new generation of children
-    for child_idx in range(0, pathsN, 2):
-        paths[child_idx] = "".join(Reproduction.generate_child(random_samples[child_idx], random_samples[child_idx+1]))
-        paths[child_idx+1] = "".join(Reproduction.generate_child(random_samples[child_idx+1], random_samples[child_idx]))
+    #making the new generation
+    #adding some old chromosomes to the new generation (20% of the new generation)
+    for idx in range(0, round(pathsN * 1 / 5)):
+        paths[idx] = paths[random.randint(0, pathsN - 1)]
+    #adding the children (80% of the new population)
+    for child_idx in range(round(pathsN * 1 / 5), pathsN, 2):
+        #adding the children of each "couple"
+        paths[child_idx] = "".join(Reproduction.generate_child(random_samples[child_counter], random_samples[child_counter+1]))
+        paths[child_idx+1] = "".join(Reproduction.generate_child(random_samples[child_counter+1], random_samples[child_counter]))
+        child_counter += 1
+
     generations += 1
     print("children:"+str(paths))
