@@ -30,6 +30,15 @@ def all_equal(paths_list):
     return next(res, True) and not next(res, False)
 
 
+def mutate(self):
+    mutated_spots = random.sample(range(4), 2)
+    mutated = [self[0], self[1], self[2], self[3], self[4], self[5]]
+    temp = self[int(mutated_spots[0]+1)]
+    mutated[int(mutated_spots[0] + 1)] = self[int(mutated_spots[1] + 1)]
+    mutated[int(mutated_spots[1] + 1)] = temp
+    return mutated
+
+
 #creating the original population (amount N)
 paths = []
 for N in range(10):
@@ -73,6 +82,15 @@ while not(all_equal(paths)):
         paths[child_idx] = "".join(Reproduction.generate_child(random_samples[child_counter], random_samples[child_counter+1]))
         paths[child_idx+1] = "".join(Reproduction.generate_child(random_samples[child_counter+1], random_samples[child_counter]))
         child_counter += 1
+
+    #mutation process
+    for mut in range(pathsN):
+        chance = random.randint(1, 10)
+        if chance == 1:
+            print("Pre-Mutation: " + str(paths[mut]))
+            paths[mut] = "".join(mutate(paths[mut]))
+            print("Mutation: " + str(paths[mut]))
+
 
     generations += 1
     print("children:"+str(paths))
