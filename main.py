@@ -39,7 +39,7 @@ def parent_picker(self, totalS, idx, path):
 def all_equal(self):
     """
     This method is used to calculate if the current population consists of the same member
-    (self is the the table of all members of the current population)
+    (self is the table of all members of the current population)
     """
     res = groupby(self)
     return next(res, True) and not next(res, False)
