@@ -101,7 +101,7 @@ while not(all_equal(paths)):
         # adding the children of each "couple"
         paths[child_idx] = "".join(Reproduction.generate_child(random_samples[child_counter], random_samples[child_counter+1]))
         paths[child_idx+1] = "".join(Reproduction.generate_child(random_samples[child_counter+1], random_samples[child_counter]))
-        child_counter += 1
+        child_counter += 2
 
     # mutation process (10% chance)
     for mut in range(pathsN):
@@ -109,7 +109,7 @@ while not(all_equal(paths)):
         if chance == 1:
             print("Pre-Mutation: " + str(paths[mut]))
             paths[mut] = "".join(mutate(paths[mut]))
-            print("Mutation: " + str(paths[mut]))
+            print("Post-Mutation: " + str(paths[mut]))
 
 
     generations += 1
